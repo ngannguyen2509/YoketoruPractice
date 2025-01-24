@@ -17,6 +17,11 @@ public class Player : MonoBehaviour, IGameStateListener
 
     SimpleState<State> state = new(State.None);
 
+    // Biến lưu trữ vị trí và góc quay ban đầu
+    private Vector3 initialPosition;
+    private Vector3 initialRotation;
+
+
     public UnityEvent<IGameStateListener> GameStateListenerDestroyed { get; private set; } = new();
 
     /// <summary>
@@ -59,8 +64,9 @@ public class Player : MonoBehaviour, IGameStateListener
 
                 // TODO: 動作を確認したら、消す
                 transform.Find("Pivot").eulerAngles
-                    = new Vector3(0, 0, -45);
-                transform.Translate(new Vector3(1, 1, 0));
+                    = new Vector3(0, 0, 0);
+                transform.Translate(new Vector3(0, 1, 0));
+                transform.Translate(new Vector3(1, 0, 0));
                 break;
 
             case State.Miss:
@@ -73,6 +79,10 @@ public class Player : MonoBehaviour, IGameStateListener
 
             case State.Reset:
                 Debug.Log($"座標と向きを、Awakeで記録したものに戻す");
+                // Khôi phục lại vị trí và góc quay ban đầu
+                transform.position = initialPosition;
+                transform.Find("Pivot").eulerAngles = initialRotation;
+
                 break;
         }
     }
@@ -85,6 +95,15 @@ public class Player : MonoBehaviour, IGameStateListener
         switch (state.CurrentState)
         {
             case State.Play:
+ /*               // Điều khiển nhân vật trong trạng thái Play
+                if (Input.GetKey(KeyCode.W)) // Ví dụ di chuyển lên
+                {
+                    transform.Translate(Vector3.forward * Time.deltaTime * 5); // Di chuyển nhân vật
+                }
+                if (Input.GetKey(KeyCode.S)) // Di chuyển xuống
+                {
+                    transform.Translate(Vector3.back * Time.deltaTime * 5);
+                }*/
                 break;
         }
     }
@@ -119,5 +138,11 @@ public class Player : MonoBehaviour, IGameStateListener
     public void OnClear()
     {
         state.SetNextState(State.Clear);
+    }
+    // Lưu trữ vị trí và góc quay ban đầu khi khởi tạo
+    private void Awake()
+    {
+        initialPosition = transform.position;
+        initialRotation = transform.Find("Pivot").eulerAngles;
     }
 }
