@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Windows;
 
 /// <summary>
 /// プレイヤーを制御するクラス。
@@ -20,7 +21,7 @@ public class Player : MonoBehaviour, IGameStateListener
     // Biến lưu trữ vị trí và góc quay ban đầu
     private Vector3 startPosition;
     private Vector3 startRotation;
-
+    private KeyboardInputReader IInput;
 
     public UnityEvent<IGameStateListener> GameStateListenerDestroyed { get; private set; } = new();
 
@@ -35,9 +36,19 @@ public class Player : MonoBehaviour, IGameStateListener
     /// <summary>
     /// フレーム更新
     /// </summary>
+    ///     private IInputReader inputReader;
+    void Start()
+    {
+        inputManager = GetComponent<InputManager>();
+    }
     private void Update()
     {
         UpdateState();
+        // Lấy đầu vào di chuyển từ inputReader (interface)
+        Vector3 movement = inputManager.GetMovementInput();
+
+        // Di chuyển đối tượng Player theo đầu vào nhận được
+        transform.Translate(movement * Time.deltaTime);
     }
 
     /// <summary>

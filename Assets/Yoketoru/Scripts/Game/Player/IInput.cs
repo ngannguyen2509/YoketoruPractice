@@ -1,3 +1,4 @@
+// IInput.cs
 using UnityEngine;
 
 public interface IInput
@@ -8,8 +9,12 @@ public interface IInput
     /// <returns>長さ0-1の範囲のベクトル</returns>
     Vector2 GetValue();
 
+    Vector3 GetMovementInput();
+
     /// <summary>
     /// Updateから呼び出して、入力の値を更新する。
     /// </summary>
     void Update();
+
+    
 }
