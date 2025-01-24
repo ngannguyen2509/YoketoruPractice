@@ -18,8 +18,8 @@ public class Player : MonoBehaviour, IGameStateListener
     SimpleState<State> state = new(State.None);
 
     // Biến lưu trữ vị trí và góc quay ban đầu
-    private Vector3 initialPosition;
-    private Vector3 initialRotation;
+    private Vector3 startPosition;
+    private Vector3 startRotation;
 
 
     public UnityEvent<IGameStateListener> GameStateListenerDestroyed { get; private set; } = new();
@@ -80,8 +80,8 @@ public class Player : MonoBehaviour, IGameStateListener
             case State.Reset:
                 Debug.Log($"座標と向きを、Awakeで記録したものに戻す");
                 // Khôi phục lại vị trí và góc quay ban đầu
-                transform.position = initialPosition;
-                transform.Find("Pivot").eulerAngles = initialRotation;
+                transform.position = startPosition;
+                transform.Find("Pivot").eulerAngles = startRotation;
 
                 break;
         }
@@ -142,7 +142,7 @@ public class Player : MonoBehaviour, IGameStateListener
     // Lưu trữ vị trí và góc quay ban đầu khi khởi tạo
     private void Awake()
     {
-        initialPosition = transform.position;
-        initialRotation = transform.Find("Pivot").eulerAngles;
+        startPosition = transform.position;
+        startRotation = transform.Find("Pivot").eulerAngles;
     }
 }
