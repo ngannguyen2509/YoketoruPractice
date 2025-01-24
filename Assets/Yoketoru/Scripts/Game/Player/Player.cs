@@ -24,6 +24,14 @@ public class Player : MonoBehaviour, IGameStateListener
 
     public UnityEvent<IGameStateListener> GameStateListenerDestroyed { get; private set; } = new();
 
+
+    // Lưu trữ vị trí và góc quay ban đầu khi khởi tạo
+    private void Awake()
+    {
+        startPosition = transform.position;
+        startRotation = transform.Find("Pivot").eulerAngles;
+    }
+
     /// <summary>
     /// フレーム更新
     /// </summary>
@@ -139,10 +147,5 @@ public class Player : MonoBehaviour, IGameStateListener
     {
         state.SetNextState(State.Clear);
     }
-    // Lưu trữ vị trí và góc quay ban đầu khi khởi tạo
-    private void Awake()
-    {
-        startPosition = transform.position;
-        startRotation = transform.Find("Pivot").eulerAngles;
-    }
+ 
 }
